@@ -1,0 +1,10 @@
+# Copyright (c) 2025 Bartosz Szostak
+# This software is released under the MIT License.
+# See the LICENSE file for more details.
+
+part loader1 --offset 32K --fixed-size 992K --no-table --source rawcopy --sourceparams file=${SPL_BINARY}
+part loader2 --offset 8192K --fixed-size 4096K --no-table --source rawcopy --sourceparams file=u-boot.${UBOOT_SUFFIX}
+part --label boot --offset 16384K --fixed-size 114688K --fstype vfat --source bootimg-partition --active
+part --label rootfs --offset 131072K --fstype ext4 --source rootfs
+
+bootloader --ptable gpt

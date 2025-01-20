@@ -1,0 +1,38 @@
+Upstream-Status: Inappropriate
+
+diff --git a/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_main.c b/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_main.c
+index 2506516..eb433f6 100644
+--- a/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_main.c
++++ b/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_main.c
+@@ -6555,7 +6555,7 @@ static struct cfg80211_ops rwnx_cfg80211_ops = {
+ 	.cancel_remain_on_channel = rwnx_cfg80211_cancel_remain_on_channel,
+ 	.dump_survey = rwnx_cfg80211_dump_survey,
+ 	.get_channel = rwnx_cfg80211_get_channel,
+-	.start_radar_detection = rwnx_cfg80211_start_radar_detection,
++//	.start_radar_detection = rwnx_cfg80211_start_radar_detection,
+ 	.update_ft_ies = rwnx_cfg80211_update_ft_ies,
+ 	.set_cqm_rssi_config = rwnx_cfg80211_set_cqm_rssi_config,
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 16, 0)
+
+diff --git a/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_radar.c b/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_radar.c
+index c50f2d2..e048308 100644
+--- a/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_radar.c
++++ b/src/SDIO/driver_fw/driver/aic8800/aic8800_fdrv/rwnx_radar.c
+@@ -1399,7 +1399,7 @@ static void rwnx_radar_cac_work(struct work_struct *ws)
+ 					#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
+ 					   &ctxt->chan_def,
+ 					#endif
+-					   NL80211_RADAR_CAC_FINISHED, GFP_KERNEL);
++					   NL80211_RADAR_CAC_FINISHED, GFP_KERNEL, 0);
+ 	rwnx_send_apm_stop_cac_req(rwnx_hw, radar->cac_vif);
+ 	rwnx_chanctx_unlink(radar->cac_vif);
+ 
+@@ -1499,7 +1499,7 @@ void rwnx_radar_cancel_cac(struct rwnx_radar *radar)
+ 						#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
+ 						   &ctxt->chan_def,
+ 						#endif
+-						   NL80211_RADAR_CAC_ABORTED, GFP_KERNEL);
++						   NL80211_RADAR_CAC_ABORTED, GFP_KERNEL, 0);
+ 		rwnx_chanctx_unlink(radar->cac_vif);
+ 	}
+ 
